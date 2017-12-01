@@ -8,6 +8,7 @@ import bloop.io.AbsolutePath
 import bloop.logging.Logger
 import bloop.util.TopologicalSort
 import bloop.reporter.ReporterConfig
+import xsbti.compile.ClasspathOptionsUtil
 
 object IntegrationTestSuite extends DynTest {
   val logger = Logger.get
@@ -33,6 +34,7 @@ object IntegrationTestSuite extends DynTest {
         dependencies = projects.keys.toArray,
         scalaInstance = projects.head._2.scalaInstance,
         classpath = Array.empty,
+        classpathOptions = ClasspathOptionsUtil.boot(),
         classesDir = classesDir,
         scalacOptions = Array.empty,
         javacOptions = Array.empty,

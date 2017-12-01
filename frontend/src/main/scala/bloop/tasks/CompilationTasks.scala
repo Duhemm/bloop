@@ -72,6 +72,7 @@ case class CompilationTasks(initialProjects: Map[String, Project],
     val instance = project.scalaInstance
     val sourceDirs = project.sourceDirectories
     val classpath = project.classpath
+    val classpathOptions = project.classpathOptions
     val classesDir = project.classesDir
     val target = project.tmp
     val scalacOptions = project.scalacOptions
@@ -79,6 +80,7 @@ case class CompilationTasks(initialProjects: Map[String, Project],
     val previous = project.previousResult
     val reporter = new Reporter(logger, project.baseDirectory.syntax, identity, reporterConfig)
     CompileInputs(instance,
+                  classpathOptions,
                   cache,
                   sourceDirs,
                   classpath,

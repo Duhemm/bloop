@@ -9,13 +9,14 @@ import bloop.io.Timer.timed
 import bloop.logging.Logger
 import bloop.tasks.CompilationTasks
 import sbt.internal.inc.FileAnalysisStore
-import xsbti.compile.{CompileAnalysis, MiniSetup, PreviousResult}
+import xsbti.compile.{ClasspathOptions, CompileAnalysis, MiniSetup, PreviousResult}
 
 case class Project(name: String,
                    baseDirectory: AbsolutePath,
                    dependencies: Array[String],
                    scalaInstance: ScalaInstance,
                    classpath: Array[AbsolutePath],
+                   classpathOptions: ClasspathOptions,
                    classesDir: AbsolutePath,
                    scalacOptions: Array[String],
                    javacOptions: Array[String],
@@ -121,6 +122,12 @@ object Project {
     val scalaVersion = properties.getProperty("scalaVersion")
     val scalaInstance = ScalaInstance(scalaOrganization, scalaName, scalaVersion, allScalaJars)
     val classpath = toPaths(properties.getProperty("classpath"))
+    val classpathOptions = {
+      val values = properties.getProperty("classpathOptions").split(",")
+      val Array(bootLibrary, compiler, extra, autoBoot, filterLibrary) =
+        values.map(java.lang.Boolean.parseBoolean)
+      ClasspathOptions.of(bootLibrary, compiler, extra, autoBoot, filterLibrary)
+    }
     val classesDir = AbsolutePath(NioPaths.get(properties.getProperty("classesDir")))
     val scalacOptions =
       properties.getProperty("scalacOptions").split(";").filterNot(_.isEmpty)
@@ -142,6 +149,7 @@ object Project {
       dependencies,
       scalaInstance,
       classpath,
+      classpathOptions,
       classesDir,
       scalacOptions,
       javacOptions,

@@ -44,6 +44,7 @@ object PluginImplementation {
       scalaName: String,
       scalaVersion: String,
       classpath: Seq[File],
+      classpathOptions: Seq[Boolean],
       classesDir: File,
       scalacOptions: Seq[String],
       javacOptions: Seq[String],
@@ -63,6 +64,7 @@ object PluginImplementation {
       properties.setProperty("scalaName", scalaName)
       properties.setProperty("scalaVersion", scalaVersion)
       properties.setProperty("classpath", seqToString(toPaths(classpath)))
+      properties.setProperty("classpathOptions", seqToString(classpathOptions))
       properties.setProperty("classesDir", classesDir.getAbsolutePath)
       properties.setProperty("scalacOptions", seqToString(scalacOptions, ";"))
       properties.setProperty("javacOptions", seqToString(javacOptions, ";"))
@@ -105,6 +107,10 @@ object PluginImplementation {
       val scalaOrg = Keys.ivyScala.value.map(_.scalaOrganization).getOrElse("org.scala-lang")
       val allScalaJars = Keys.scalaInstance.value.allJars.map(_.getAbsoluteFile)
       val classpath = PluginDefaults.emulateDependencyClasspath.value.map(_.getAbsoluteFile)
+      val classpathOptions = {
+        val cpo = Keys.classpathOptions.value
+        Seq(cpo.bootLibrary, cpo.compiler, cpo.extra, cpo.autoBoot, cpo.filterLibrary)
+      }
       val classesDir = Keys.classDirectory.value.getAbsoluteFile
       val sourceDirs = Keys.sourceDirectories.value
       val testFrameworks = Keys.testFrameworks.value.map(_.implClassNames)
@@ -120,7 +126,8 @@ object PluginImplementation {
 
       // format: OFF
       val config = Config(projectName, baseDirectory, dependenciesAndAggregates, scalaOrg, scalaName,scalaVersion,
-        classpath, classesDir, scalacOptions, javacOptions, sourceDirs, testFrameworks, allScalaJars, tmp)
+        classpath, classpathOptions, classesDir, scalacOptions, javacOptions, sourceDirs, testFrameworks, allScalaJars,
+        tmp)
       sbt.IO.createDirectory(bloopConfigDir)
       val stream = new FileOutputStream(outFile)
       try config.toProperties.store(stream, null)

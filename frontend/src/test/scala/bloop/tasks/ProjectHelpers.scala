@@ -8,6 +8,7 @@ import java.nio.file.attribute.BasicFileAttributes
 import bloop.{Project, ScalaInstance}
 import bloop.io.AbsolutePath
 import bloop.logging.Logger
+import xsbti.compile.ClasspathOptionsUtil
 
 object ProjectHelpers {
 
@@ -106,6 +107,7 @@ object ProjectHelpers {
       dependencies = dependencies.toArray,
       scalaInstance = scalaInstance,
       classpath = classpath,
+      classpathOptions = ClasspathOptionsUtil.boot(),
       classesDir = AbsolutePath(target),
       scalacOptions = Array.empty,
       javacOptions = Array.empty,
