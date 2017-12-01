@@ -19,7 +19,9 @@ object IntegrationTestSuite extends DynTest {
 
   projects.forEach { testDirectory =>
     test(testDirectory.getFileName.toString) {
-      testProject(testDirectory, logger)
+      logger.quietIfSuccess { quietLogger =>
+        testProject(testDirectory, quietLogger)
+      }
     }
   }
 
