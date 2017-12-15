@@ -53,6 +53,16 @@ object Bloop {
         val action = Run(command, Exit(ExitStatus.Ok))
         run(Interpreter.execute(action, state))
 
+      case Array("runMain", projectName, mainClass, args @ _*) =>
+        val command = Commands.Run(projectName, Some(mainClass), scalacstyle = false, args.toList)
+        val action = Run(command, Exit(ExitStatus.Ok))
+        run(Interpreter.execute(action, state))
+
+      case Array("run", projectName, args @ _*) =>
+        val command = Commands.Run(projectName, None, scalacstyle = false, args.toList)
+        val action = Run(command, Exit(ExitStatus.Ok))
+        run(Interpreter.execute(action, state))
+
       case _ =>
         state.logger.error(s"Not understood: '$input'")
         run(state)
