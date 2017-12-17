@@ -124,8 +124,7 @@ object PluginImplementation {
       val outFile = bloopConfigDir / s"$projectName.config"
 
       // Force source and resource generators on this task manually
-      // We cannot depend on `managedSources` and `managedResources` because they trigger compilation
-      (Keys.sourceGenerators.value ++ Keys.resourceGenerators.value).join.map(_.flatten)
+      val _ = (Keys.managedSources.value, Keys.managedResources.value)
 
       // format: OFF
       val config = Config(projectName, baseDirectory, dependenciesAndAggregates, scalaOrg,
