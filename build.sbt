@@ -100,6 +100,7 @@ val benchmarks = project
 
 lazy val integrationsCore = project
   .in(file("integrations/core"))
+  .settings(publishLocal := publishM2.value)
 
 import build.BuildImplementation.BuildDefaults
 lazy val sbtBloop = project
@@ -122,6 +123,7 @@ val mavenBloop = project
   .settings(
     name := "maven-bloop",
     mavenPlugin := true,
+    publishLocal := publishM2.dependsOn(publishLocal in integrationsCore).value,
     libraryDependencies ++= List(
       Dependencies.mavenCore,
       Dependencies.mavenPluginApi,
