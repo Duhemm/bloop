@@ -53,7 +53,7 @@ addCommandAlias(
     "^sbtBloop/publishLocal",
     "nailgun/publishLocal",
     "backend/publishLocal",
-    "frontend/publishLocal"
+    s"$frontendProjectId/publishLocal"
   ).mkString(";", ";", "")
 )
 
@@ -83,7 +83,7 @@ val frontend = project
   .settings(testSettings)
   .settings(assemblySettings)
   .settings(
-    name := "bloop-frontend",
+    name := s"bloop-$frontendProjectId",
     mainClass in Compile in run := Some("bloop.Cli"),
     buildInfoPackage := "bloop.internal.build",
     buildInfoKeys := BloopInfoKeys,
