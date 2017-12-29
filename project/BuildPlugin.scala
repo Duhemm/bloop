@@ -215,11 +215,12 @@ object BuildImplementation {
     }
 
     private def createScriptedSetup(testDir: File) = {
+      val tripleQuotedTestDir = "\"\"\"" + testDir.toString.replace("\\u", "\\\\u") + "\"\"\""
       s"""
-         |bloopConfigDir in Global := file("$testDir/bloop-config")
+         |bloopConfigDir in Global := file($tripleQuotedTestDir) / "bloop-config"
          |TaskKey[Unit]("registerDirectory") := {
          |  val dir = (baseDirectory in ThisBuild).value
-         |  IO.write(file("$testDir/bloop-config/base-directory"), dir.getAbsolutePath)
+         |  IO.write(file($tripleQuotedTestDir) / "bloop-config" / "base-directory", dir.getAbsolutePath)
          |}
          |TaskKey[Unit]("checkInstall") := {
          |  Thread.sleep(1000) // Let's wait a little bit because of OS's IO latency
@@ -261,6 +262,10 @@ object BuildImplementation {
           IO.createDirectory(testDir / "bloop-config")
           IO.write(testDir / "project" / "test-config.sbt", addSbtPlugin)
           IO.write(testDir / "test-config.sbt", createScriptedSetup(testDir))
+          println("#" * 100)
+          println("Writing to " + (testDir / "test-config.sbt") + ":")
+          println(createScriptedSetup(testDir))
+          println("#" * 100)
           IO.write(testDir / "test", scriptedTestContents)
         }
       },
