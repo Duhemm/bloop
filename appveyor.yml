@@ -11,8 +11,10 @@ build_script:
   # Remember to keep that in sync with .drone.yml
   - sbt "+bridgeIntegration/cachedPublishLocal" ^
         "benchmarks/compile" ^
-        "git status" ^
-        "setupTests" ^
-        "git status" ^
+        "setupTests"
+  - cd zinc
+  - git status
+  - cd ..
+  - sbt "git status" ^
         "backend/test" ^
         "frontend/test"
