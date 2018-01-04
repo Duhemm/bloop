@@ -1,0 +1,36 @@
+cache:
+  directories:
+    - $HOME/.ivy2/cache
+    - $HOME/.sbt/boot
+
+before_install:
+  - bash bin/travis-setup.sh
+
+before_cache:
+  - find $HOME/.ivy2 -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt  -name "*.lock"               -print -delete
+
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      language: scala
+      jdk: oraclejdk8
+
+    # We don't support JDK9 yet.
+    # - os: linux
+    #   language: scala
+    #   jdk: oraclejdk9
+
+    - os: osx
+
+script:
+  - sbt "+bridgeIntegration/cachedPublishLocal" \
+        "benchmarks/compile" \
+        "git status" \
+        "install" \
+        "scriptedAddSbtBloop"
+        "scripted projects/with-resources projects/with-tests"
+        "git status" \
+        "backend/testOnly -- --exclude-categories=bloop.SlowTests" \
+        "frontend/testOnly -- --exclude-categories=bloop.SlowTests"
