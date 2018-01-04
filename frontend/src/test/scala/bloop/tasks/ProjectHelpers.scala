@@ -244,7 +244,8 @@ object ProjectHelpers {
         }
 
         override def postVisitDirectory(dir: Path, exc: IOException): FileVisitResult = {
-          Files.delete(dir)
+          try Files.delete(dir)
+          catch { case _: DirectoryNotEmptyException => () }
           FileVisitResult.CONTINUE
         }
       }
