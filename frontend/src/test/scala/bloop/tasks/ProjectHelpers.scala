@@ -20,7 +20,7 @@ object ProjectHelpers {
 
   def rebase(fromPath: Path, toPath: Path, project: Project): Project = {
     val from = Matcher.quoteReplacement(fromPath.toString)
-    val to = toPath.toString
+    val to = Matcher.quoteReplacement(toPath.toString)
     def work(path: AbsolutePath): AbsolutePath = {
       val newPath = Paths.get(path.toString.replaceFirst(from, to))
       AbsolutePath(newPath)
