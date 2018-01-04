@@ -52,7 +52,7 @@ class FileWatchingSpec {
     val testFuture = scala.concurrent.Future { testAction(ctx, workerThread) }
     try Await.ready(testFuture, duration.Duration(1, duration.MINUTES))
     catch { case t: Throwable => println(s"LOGS WERE ${bloopOut.toString("UTF-8")}"); throw t }
-    ()
+    workerThread.join(1500)
   }
 
   @Test
