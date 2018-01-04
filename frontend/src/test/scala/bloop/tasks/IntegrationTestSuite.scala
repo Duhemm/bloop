@@ -19,7 +19,7 @@ import bloop.io.AbsolutePath
 object IntegrationTestSuite {
   val projects = Files
     .list(getClass.getClassLoader.getResources("projects") match {
-      case res if res.hasMoreElements => Paths.get(res.nextElement.getFile)
+      case res if res.hasMoreElements => Paths.get(res.nextElement.toURI)
       case _ => throw new Exception("No projects to test?")
     })
     .toArray
