@@ -50,7 +50,7 @@ class FileWatchingSpec {
     val workerThread = new Thread { override def run(): Unit = workerAction(ctx) }
     implicit val context = state.executionContext
     val testFuture = scala.concurrent.Future { testAction(ctx, workerThread) }
-    try Await.ready(testFuture, duration.Duration(15, duration.SECONDS))
+    try Await.ready(testFuture, duration.Duration(1, duration.MINUTES))
     catch { case t: Throwable => println(s"LOGS WERE ${bloopOut.toString("UTF-8")}"); throw t }
     ()
   }
