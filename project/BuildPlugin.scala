@@ -63,12 +63,11 @@ object BuildKeys {
     commonKeys ++ List(zincKey, developersKey)
   }
 
-  import sbt.Test
+  import sbt.{Test, TestFrameworks, Tests}
   val scriptedAddSbtBloop = Def.taskKey[Unit]("Add sbt-bloop to the test projects")
   val testSettings: Seq[Def.Setting[_]] = List(
-    Keys.testFrameworks += new sbt.TestFramework("utest.runner.Framework"),
+    Keys.testOptions += Tests.Argument(TestFrameworks.JUnit, "-v"),
     Keys.libraryDependencies ++= List(
-      Dependencies.utest % Test,
       Dependencies.junit % Test
     ),
   )
