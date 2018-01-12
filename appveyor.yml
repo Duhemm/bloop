@@ -8,13 +8,12 @@ clone_script:
   - cmd: git clone -q --recursive --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
   - cmd: git checkout -qf %APPVEYOR_REPO_COMMIT%
 build_script:
-  # Remember to keep that in sync with .drone.yml
   - sbt "+bridgeIntegration/cachedPublishLocal" ^
         "benchmarks/compile" ^
-        "setupTests"
-  - cd zinc
-  - git status
-  - cd ..
-  - sbt "git status" ^
-        "backend/test" ^
-        "frontend/test"
+        "git status" ^
+        "install" ^
+        "scriptedAddSbtBloop" ^
+        "scripted projects/with-resources projects/with-tests" ^
+        "git status" ^
+        "backend/testOnly -- --exclude-categories=bloop.SlowTests" ^
+        "frontend/testOnly -- --exclude-categories=bloop.SlowTests"
