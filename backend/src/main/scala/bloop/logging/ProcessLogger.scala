@@ -41,15 +41,24 @@ object ProcessLogger {
     val outputStream = new OutputStream {
       private[this] var dirty = false
       private[this] val buffer = new ByteArrayOutputStream
+      private[this] var sawR = false
 
       override def write(x: Int): Unit = synchronized {
         dirty = true
-        if (x == '\n') flush()
-        else buffer.write(x)
+        if (x == '\r') sawR = true
+        else if (x == '\n') flush()
+        else {
+          if (sawR) {
+            buffer.write('\r')
+            sawR = false
+          }
+          buffer.write(x)
+        }
       }
 
       override def flush(): Unit = synchronized {
         if (dirty) {
+          sawR = false
           dirty = false
           val bytes = buffer.toByteArray()
           buffer.reset()
