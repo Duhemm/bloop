@@ -4,7 +4,7 @@ import java.util.{Arrays, Collection}
 
 import bloop.logging.BloopLogger
 import org.junit.Assert.{assertSame, assertTrue}
-import org.junit.Test
+import org.junit.{AfterClass, Test}
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -32,6 +32,12 @@ class SameScalaVersions(version: String) {
   }
 }
 object SameScalaVersions {
+
+  @AfterClass
+  def clearCaches(): Unit = {
+    ScalaInstance.clearCache()
+  }
+
   @Parameters
   def data(): Collection[Array[String]] = {
     Arrays.asList(ScalaInstanceCachingSpec.sameVersionPairs.map(Array.apply(_)): _*)
@@ -48,6 +54,12 @@ class DifferentScalaVersions(v1: String, v2: String) {
   }
 }
 object DifferentScalaVersions {
+
+  @AfterClass
+  def clearCaches(): Unit = {
+    ScalaInstance.clearCache()
+  }
+
   @Parameters
   def data(): Collection[Array[String]] = {
     Arrays.asList(ScalaInstanceCachingSpec.unsharedVersionPairs.map {

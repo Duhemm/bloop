@@ -1,10 +1,10 @@
 package bloop.tasks
 
-import org.junit.Test
+import org.junit.{AfterClass, Test}
 import org.junit.Assert.assertTrue
 import org.junit.experimental.categories.Category
 
-import bloop.{ScalaInstance}
+import bloop.ScalaInstance
 import bloop.engine.State
 import bloop.logging.RecordingLogger
 import bloop.tasks.ProjectHelpers.{
@@ -13,6 +13,15 @@ import bloop.tasks.ProjectHelpers.{
   hasPreviousResult,
   noPreviousResult,
   RootProject
+}
+
+object CompilationTaskTest {
+
+  @AfterClass
+  def clearCaches(): Unit = {
+    ScalaInstance.clearCache()
+  }
+
 }
 
 @Category(Array(classOf[bloop.FastTests]))

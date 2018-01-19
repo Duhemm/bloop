@@ -4,7 +4,7 @@ import java.nio.file.{Files, Path, Paths}
 import java.util.{Arrays, Collection}
 
 import org.junit.Assert.assertTrue
-import org.junit.Test
+import org.junit.{AfterClass, Test}
 import org.junit.experimental.categories.Category
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters
 import bloop.cli.{Commands, ExitStatus}
 import bloop.engine.{Dag, Exit, Interpreter, Run}
 import bloop.exec.JavaEnv
-import bloop.Project
+import bloop.{Project, ScalaInstance}
 import bloop.io.AbsolutePath
 
 object IntegrationTestSuite {
@@ -25,6 +25,11 @@ object IntegrationTestSuite {
   @Parameters
   def data() = {
     Arrays.asList(projects: _*)
+  }
+
+  @AfterClass
+  def clearCaches() = {
+    ScalaInstance.clearCache()
   }
 }
 

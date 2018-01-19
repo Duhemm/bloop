@@ -100,6 +100,11 @@ object ScalaInstance {
     instances.computeIfAbsent(instanceId, _ => resolveInstance)
   }
 
+  /** Remove all cached `ScalaInstance`s. */
+  def clearCache(): Unit = {
+    instances.clear()
+  }
+
   def getVersion(loader: ClassLoader): String = {
     val version = Option(loader.getResource("compiler.properties")).flatMap { url =>
       val stream = url.openStream()
