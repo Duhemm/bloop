@@ -1,7 +1,7 @@
 [submodule "zinc"]
 	path = zinc
 	url = https://github.com/scalacenter/zinc.git
-	branch = loop
+	branch = scalafmt-windows
 [submodule "nailgun"]
 	path = nailgun
 	url = https://github.com/scalacenter/nailgun.git

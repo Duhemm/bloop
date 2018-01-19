@@ -4,6 +4,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 import java.nio.file._
 import java.nio.file.attribute.BasicFileAttributes
+import java.util.regex.Matcher
 
 import bloop.cli.Commands
 import bloop.engine.{Build, Interpreter, Run, State}
@@ -18,9 +19,11 @@ object ProjectHelpers {
   def sourcesDir(base: Path, name: String) = projectDir(base, name).resolve("src")
   def classesDir(base: Path, name: String) = projectDir(base, name).resolve("classes")
 
-  def rebase(from: Path, to: Path, project: Project): Project = {
+  def rebase(fromPath: Path, toPath: Path, project: Project): Project = {
+    val from = Matcher.quoteReplacement(fromPath.toString)
+    val to = toPath.toString
     def work(path: AbsolutePath): AbsolutePath = {
-      val newPath = Paths.get(path.toString.replaceFirst(from.toString, to.toString))
+      val newPath = Paths.get(path.toString.replaceFirst(from, to))
       AbsolutePath(newPath)
     }
 
