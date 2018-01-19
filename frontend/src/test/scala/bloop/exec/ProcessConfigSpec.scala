@@ -69,7 +69,7 @@ class ProcessConfigSpec {
   def reportsExceptionsWithForking(): Unit = run(ForkingEnv, Array("crash")) {
     case (exitCode, messages) =>
       assertNotEquals(0, exitCode.toLong)
-      assert(messages.count(_._1 == "error") == 3)
+      assertEquals(3, messages.count(_._1 == "error").toLong)
   }
 
 }
