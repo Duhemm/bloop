@@ -78,7 +78,10 @@ object ProjectHelpers {
     val configDir = base.resolve("bloop-config")
     val logger = BloopLogger.default(configDir.toString())
     val baseDirectoryFile = configDir.resolve("base-directory")
-    assert(Files.exists(configDir) && Files.exists(baseDirectoryFile))
+    assert(Files.exists(projectsBase), s"Does not exist: ${projectsBase.toAbsolutePath}")
+    assert(Files.exists(base), s"Does not exist: ${base.toAbsolutePath}")
+    assert(Files.exists(configDir), s"Does not exist: ${configDir.toAbsolutePath}")
+    assert(Files.exists(baseDirectoryFile), s"Does not exist: ${baseDirectoryFile.toAbsolutePath}")
     val testBaseDirectory = {
       val contents = Files.readAllLines(baseDirectoryFile)
       assert(!contents.isEmpty)
