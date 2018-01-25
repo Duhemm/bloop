@@ -15,5 +15,5 @@ build_script:
         "scriptedAddSbtBloop" ^
         "scripted integration-projects/sbt integration-projects/with-resources integration-projects/with-tests" ^
         "git status" ^
-        "backend/testOnly -- --exclude-categories=bloop.SlowTests" ^
-        "frontend/testOnly -- --exclude-categories=bloop.SlowTests"
+        "backend/testOnly -- --include-categories=bloop.AppVeyorTests" ^
+        "frontend/testOnly -- --include-categories=bloop.AppVeyorTests"

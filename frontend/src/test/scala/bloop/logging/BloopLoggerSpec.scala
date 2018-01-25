@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.Assert.assertEquals
 import org.junit.experimental.categories.Category
 
-@Category(Array(classOf[bloop.FastTests]))
+@Category(Array(classOf[bloop.AppVeyorTests], classOf[bloop.FastTests]))
 class BloopLoggerSpec {
   @Test
   def infoAndWarnMessagesGoToOut =

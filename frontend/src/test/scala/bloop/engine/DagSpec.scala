@@ -8,7 +8,7 @@ import bloop.logging.RecordingLogger
 import bloop.Project
 import guru.nidi.graphviz.parse.Parser
 
-@Category(Array(classOf[bloop.FastTests]))
+@Category(Array(classOf[bloop.AppVeyorTests], classOf[bloop.FastTests]))
 class DagSpec {
   private object TestProjects {
     private val logger = new RecordingLogger

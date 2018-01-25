@@ -21,7 +21,7 @@ object ScalaInstanceCachingSpec {
   }
 }
 
-@Category(Array(classOf[FastTests]))
+@Category(Array(classOf[AppVeyorTests], classOf[FastTests]))
 @RunWith(classOf[Parameterized])
 class SameScalaVersions(version: String) {
   @Test
