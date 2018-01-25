@@ -11,7 +11,7 @@ import scala.collection.mutable.Buffer
 import scala.concurrent.Await
 import scala.concurrent.duration.DurationInt
 
-@Category(Array(classOf[bloop.FastTests]))
+@Category(Array(classOf[bloop.AppVeyorTests], classOf[bloop.FastTests]))
 class TaskTest {
 
   private implicit val mergeableUnit: Mergeable[Unit] =

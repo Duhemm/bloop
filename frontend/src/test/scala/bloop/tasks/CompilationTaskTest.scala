@@ -24,7 +24,7 @@ object CompilationTaskTest {
 
 }
 
-@Category(Array(classOf[bloop.FastTests]))
+@Category(Array(classOf[bloop.AppVeyorTests], classOf[bloop.FastTests]))
 class CompilationTaskTest {
   object ArtificialSources {
     val `A.scala` = "package p0\nclass A"
